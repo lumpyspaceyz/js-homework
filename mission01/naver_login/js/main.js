@@ -26,15 +26,9 @@ emailInput.addEventListener('input', validation)
 // 2. pw 정규표현식을 사용한 validation
 pwInput.addEventListener('input', validation)
 
-// loginForm.addEventListener('submit', () => {
-//   e.preventDefault();
-//   submit();
-// })
-
-loginBtn.addEventListener('click', (e) => {
+loginForm.addEventListener('submit', (e) => {
   e.preventDefault();
-  console.log('loginBtn click');
-  submit();
+  submit(emailInput.value, pwInput.value);
 })
 
 
@@ -59,25 +53,19 @@ function validation(e) {
 }
 
 // 4. 로그인 버튼을 클릭시 조건처리
-function submit() {
-  console.log('submit 호출')
-
-  if(!emailInvalid.classList.contains('is--invalid') && !pwInvalid.classList.contains('is--invalid')) {
-    loginBtn.disabled = false;
-    console.log('버튼 활성화')
-    checkData(emailInput, pwInput);
+function submit(email, pw) {
+  if(checkData(email, pw)) {
+    window.location.href = 'welcome.html'
   } else {
-    loginBtn.disabled = true;
-    console.log('버튼 비활성화')
+    throw new Error('회원 정보가 일치하지 않습니다.')
   }
 }
 
 function checkData(checkId, checkPw) {
-  if ((checkId.value === user.id) && (checkPw.value === user.pw)) {
-    console.log('welcome')
-    // window.location.href = 'welcome.html';
+  if ((checkId === user.id) && (checkPw === user.pw)) {
+    return true
   } else {
-    throw new Error('회원 정보가 일치하지 않습니다.')
+    return false  
   }
 }
 
