@@ -6,6 +6,10 @@
 
 <br>
 
+![ezgif com-gif-maker](https://github.com/lumpyspaceyz/js-homework/assets/90670695/19df90a9-92ca-4fc2-8c30-d9442ba53556)
+
+<br>
+
 ### 함수 기능 정의
 - **validation()**
   : input box의 값을 정규 표현식으로 검사하여 error message를 보여줄지 말지 결정
