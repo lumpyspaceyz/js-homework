@@ -6,11 +6,11 @@
 
 
 ### 함수 기능 정의
-- validation
+- **validation()**
   : input box의 값을 정규 표현식으로 검사하여 error message를 보여줄지 말지 결정
-- submit
+- **submit()**
   : checkData 함수로 회원 정보를 체크한 결과에 따라 submit 여부? 방법? (페이지를 이동 or Throw Error) 결정
-- checkData
+- **checkData()**
   : 입력된 값과 user 객체의 회원 정보를 비교하여 회원인지 아닌지 확인
 
 
