@@ -6,6 +6,7 @@
 
 <br>
 
+### 완성된 모습
 ![ezgif com-gif-maker](https://github.com/lumpyspaceyz/js-homework/assets/90670695/19df90a9-92ca-4fc2-8c30-d9442ba53556)
 
 <br>
