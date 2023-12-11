@@ -1,3 +1,11 @@
+/*
+
+1. email 정규표현식을 사용한 validation
+2. pw 정규표현식을 사용한 validation
+3. 상태 변수 관리
+4. 로그인 버튼을 클릭시 조건처리
+
+*/
 
 const user = {
   id:'asd@naver.com',
@@ -11,25 +19,9 @@ const pwInvalid = document.querySelector('#userPasswordError');
 const loginForm = document.querySelector('.login-form');
 const loginBtn = document.querySelector('.btn-login');
 
-/*
-
-1. email 정규표현식을 사용한 validation
-2. pw 정규표현식을 사용한 validation
-3. 상태 변수 관리..?
-4. 로그인 버튼을 클릭시 조건처리
-
-*/
-
-// 1. email 정규표현식을 사용한 validation
-emailInput.addEventListener('input', validation)
-
-// 2. pw 정규표현식을 사용한 validation
-pwInput.addEventListener('input', validation)
-
-loginForm.addEventListener('submit', (e) => {
-  e.preventDefault();
-  submit(emailInput.value, pwInput.value);
-})
+// 3. 상태 변수 관리
+let emailPass = false;
+let pwPass = false;
 
 
 function emailReg(text){
@@ -43,12 +35,35 @@ function pwReg(text){
   return re.test(String(text).toLowerCase());
 }
 
-function validation(e) {
-  const value = e.target.value;
-  if(e.target === emailInput) {
-    emailReg(value) ? emailInvalid.classList.remove('is--invalid') : emailInvalid.classList.add('is--invalid')
-  } else if(e.target === pwInput) {
-    pwReg(value) ? pwInvalid.classList.remove('is--invalid') : pwInvalid.classList.add('is--invalid')
+function handleCheckInput(e) {
+  // const value = e.target.value;
+  let value = this.value;
+  let errorMessage = this.nextElementSibling;
+
+  console.log(this.nextElementSibling);
+
+  if(this === emailInput) {
+    // emailReg(value) ? emailInvalid.classList.remove('is--invalid') : emailInvalid.classList.add('is--invalid')
+
+    if(emailReg(value)) {
+      errorMessage.classList.remove('is--invalid')
+      emailPass = true
+    } else {
+      errorMessage.classList.add('is--invalid')
+      emailPass = false
+    }
+
+  } else if(this === pwInput) {
+    // pwReg(value) ? pwInvalid.classList.remove('is--invalid') : pwInvalid.classList.add('is--invalid')
+
+    if(pwReg(value)) {
+      errorMessage.classList.remove('is--invalid')
+      pwPass = true
+    } else {
+      errorMessage.classList.add('is--invalid')
+      pwPass = false
+    }
+
   }
 }
 
@@ -69,7 +84,85 @@ function checkData(checkId, checkPw) {
   }
 }
 
+function handleLogin(e) {
+  e.preventDefault();
+
+  if(emailPass && pwPass) {
+
+    const id = emailInput.value;
+    const pw = pwInput.value;
+    const getUserId = user.id; // 비동기
+    const getUserPw = user.pw; // 비동기
+
+    if(id === getUserId && pw === getUserPw) {
+      console.log('로그인 성공')
+      wondow.location.href = 'welcome.html'
+    } else {
+      gsap.to('form',{
+        x: 10,
+        repeat: 8,
+        yoyo: true,
+        duration: 0.08,
+        clearProps: true
+      })
+    }
+
+  } else {
+    throw new Error('아이디와 비밀번호를 확인해주세요.')
+  }
+}
+
+// handleLogin -> try..catch
+// function handleLogin(e){
 
 
+//   e.preventDefault();
+
+//   if(emailPass && pwPass){
+
+//     try{
+//       const id = emailInput.value;
+//       const pw = pwInput.value;
+//       const getUserId = user.id; // 비동기 => 1s 
+//       const getUserPw = user.pw; // 비동기 => 1s
+      
+//       console.log( getUserId, getUserPw );
+
+//       if(id === getUserId && pw === getUserPw){
+//         // console.log('로그인 성공!');
+        
+//         window.location.href = './welcome.html'
+//       }
+//     }catch(err){
+//       console.log('해당 유저의 정보를 가져오지 못했습니다.');
+//     }
+
+//   }else{
+//     console.log('입력부터 똑바로 하고와! ');
+//     // alert('dlqfurEhrqkfhgo!')
+//     gsap.to('form',{
+//       y:10,
+//       repeat:8,
+//       yoyo:true,
+//       duration:0.08,
+//       clearProps:true
+//     })
+//   }
+// }
+
+
+// 1. email 정규표현식을 사용한 validation
+
+emailInput.addEventListener('input', handleCheckInput)
+
+// 2. pw 정규표현식을 사용한 validation
+pwInput.addEventListener('input', handleCheckInput)
+
+loginForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+  submit(emailInput.value, pwInput.value);
+})
+
+// loginBtn.addEventListener('click', handleLogin)
 
 
